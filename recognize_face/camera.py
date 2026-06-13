@@ -1,21 +1,36 @@
-import cv2, os, pickle, glob
-import numpy as np
-import face_recognition
+import os
+import pickle
 from django.conf import settings
 
+try:
+    import cv2
+    import numpy as np
+    import face_recognition
+    CV2_AVAILABLE = True
+except ImportError:
+    cv2 = None
+    np = None
+    face_recognition = None
+    CV2_AVAILABLE = False
 
-with open('models/recognize_face_models/dataset_faces.dat','rb') as f:
-	faces_encodings = pickle.load(f)
+models_dir = os.path.join(str(settings.BASE_DIR), 'models', 'recognize_face_models')
+faces_encodings = []
+faces_names = []
 
-with open('models/recognize_face_models/name_faces.dat','rb') as f:
-	faces_names = pickle.load(f)
-
+try:
+    with open(os.path.join(models_dir, 'dataset_faces.dat'), 'rb') as f:
+        faces_encodings = pickle.load(f)
+    with open(os.path.join(models_dir, 'name_faces.dat'), 'rb') as f:
+        faces_names = pickle.load(f)
+except (FileNotFoundError, IOError, pickle.PickleError):
+    faces_encodings = []
+    faces_names = []
 
 face_locations = []
 face_encodings = []
 face_names = []
 
-FACE_NAME = "Unknown"
+FACE_NAME = 'Unknown'
 
 def gen(camera):
     global FACE_NAME

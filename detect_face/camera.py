@@ -1,12 +1,19 @@
-import cv2, os
-import numpy as np
+import os
 from django.conf import settings
 
-
-face_detection_videocam = cv2.CascadeClassifier(
-	os.path.join(str(settings.BASE_DIR),
-	'models/opencv_haarcascade_data/haarcascade_frontalface_default.xml')
-)
+try:
+    import cv2
+    import numpy as np
+    face_detection_videocam = cv2.CascadeClassifier(
+        os.path.join(str(settings.BASE_DIR),
+            'models', 'opencv_haarcascade_data', 'haarcascade_frontalface_default.xml')
+    )
+    CV2_AVAILABLE = True
+except ImportError:
+    cv2 = None
+    np = None
+    face_detection_videocam = None
+    CV2_AVAILABLE = False
 
 FACES_COUNT = 0
 

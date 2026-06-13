@@ -1,18 +1,31 @@
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import load_model
-from imutils.video import VideoStream
-import imutils
-import cv2, os
-import numpy as np
+import os
 from django.conf import settings
 
+try:
+    import cv2
+    import imutils
+    import numpy as np
+    from imutils.video import VideoStream
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+    from tensorflow.keras.preprocessing.image import img_to_array
+    from tensorflow.keras.models import load_model
 
-# load our serialized face detector model from disk
-prototxtPath = os.path.sep.join([str(settings.BASE_DIR), "models/face_detector/deploy.prototxt"])
-weightsPath = os.path.sep.join([str(settings.BASE_DIR),"models/face_detector/res10_300x300_ssd_iter_140000.caffemodel"])
-faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
-maskNet = load_model(os.path.join(str(settings.BASE_DIR),'models/face_detector/mask_detector.model'))
+    prototxtPath = os.path.sep.join([str(settings.BASE_DIR), 'models', 'face_detector', 'deploy.prototxt'])
+    weightsPath = os.path.sep.join([str(settings.BASE_DIR), 'models', 'face_detector', 'res10_300x300_ssd_iter_140000.caffemodel'])
+    faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
+    maskNet = load_model(os.path.join(str(settings.BASE_DIR), 'models', 'face_detector', 'mask_detector.model'))
+    CV2_AVAILABLE = True
+except ImportError:
+    cv2 = None
+    imutils = None
+    np = None
+    VideoStream = None
+    preprocess_input = None
+    img_to_array = None
+    load_model = None
+    faceNet = None
+    maskNet = None
+    CV2_AVAILABLE = False
 
 HAS_MASK = False
 

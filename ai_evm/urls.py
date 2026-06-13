@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import start, dbg
+from .views import api_results, api_status, dbg, reset_session, start
 from detect_face.views import detect_face
 from detect_person.views import detect_person
 from detect_mask.views import detect_mask
@@ -25,8 +25,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', start, name = 'start'),
     path('dbg/', dbg, name = 'dbg'),
+    path('api/status/', api_status, name='api_status'),
+    path('api/results/', api_results, name='api_results'),
+    path('reset/', reset_session, name='reset_session'),
     path('detect_face/', detect_face, name = 'detect_face'),
     path('detect_person/', detect_person, name = 'detect_person'),
     path('detect_mask/', detect_mask, name = 'detect_mask'),
-    path('recognize_face', recognize_face, name = 'recognize_face')
+    path('recognize_face/', recognize_face, name = 'recognize_face'),
+    path('recognize_face', recognize_face),
 ]

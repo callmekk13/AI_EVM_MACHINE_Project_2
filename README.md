@@ -13,12 +13,8 @@ Click to watch full demo (by Satyendra Yadav) <br>
 
 <br>
 
-## Team
-- Mohith Kune (me)
-- Satyendra Yadav
-- Venkatesh Vutukuri
-- Ankit Chouhan
-- Pooja Yadav
+## Created by
+Kartikey Kolhe
 
 <br>
 

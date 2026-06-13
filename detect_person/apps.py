@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class DetectFaceConfig(AppConfig):
-    name = 'detect_face'
+class DetectPersonConfig(AppConfig):
+    name = 'detect_person'

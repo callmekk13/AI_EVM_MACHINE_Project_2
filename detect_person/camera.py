@@ -1,13 +1,22 @@
-import cv2, os
-import numpy as np
+import os
+from django.conf import settings
 
-
-prototxt = "models/MobileNetSSD\MobileNetSSD_deploy.prototxt"
-weights = "models/MobileNetSSD\MobileNetSSD_deploy.caffemodel"
-thr = 0.4
-
-classNames = {15: 'person'}
-net = cv2.dnn.readNetFromCaffe(prototxt,weights)
+try:
+    import cv2
+    import numpy as np
+    prototxt = os.path.join(str(settings.BASE_DIR), 'models', 'MobileNetSSD', 'MobileNetSSD_deploy.prototxt')
+    weights = os.path.join(str(settings.BASE_DIR), 'models', 'MobileNetSSD', 'MobileNetSSD_deploy.caffemodel')
+    thr = 0.4
+    classNames = {15: 'person'}
+    net = cv2.dnn.readNetFromCaffe(prototxt, weights)
+    CV2_AVAILABLE = True
+except ImportError:
+    cv2 = None
+    np = None
+    net = None
+    classNames = {}
+    thr = 0.4
+    CV2_AVAILABLE = False
 
 PERSON_COUNT = 0
 
